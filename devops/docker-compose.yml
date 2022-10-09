@@ -1,0 +1,12 @@
+version: '3'
+services:
+  client:
+    stdin_open: true
+    build:
+      context: ..
+      dockerfile: devops/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - "/app/node_modules"
+      - "../:/app"
