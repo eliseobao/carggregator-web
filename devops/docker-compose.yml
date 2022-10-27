@@ -1,12 +1,13 @@
 version: '3'
 services:
-  client:
-    stdin_open: true
+  react-ui:
     build:
       context: ..
       dockerfile: devops/Dockerfile
     ports:
       - "3000:3000"
+    container_name: react-ui
+    stdin_open: true
     volumes:
-      - "/app/node_modules"
-      - "../:/app"
+      - ../:/app
+      - /app/node_modules
