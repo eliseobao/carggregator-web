@@ -1,7 +1,5 @@
 FROM node:alpine
 
-RUN ls
-
 WORKDIR /app
 
 COPY package.json ./
