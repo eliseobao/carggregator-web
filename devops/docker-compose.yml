@@ -6,6 +6,7 @@ services:
       dockerfile: devops/Dockerfile
     ports:
       - "3000:3000"
+    network_mode: host
     container_name: react-ui
     stdin_open: true
     volumes:
