@@ -41,6 +41,8 @@ Frontend for carggregator, a second-hand car ads aggregator.
 carggregator-web uses a number of open source projects to work properly:
 
 - [React] - A declarative, efficient, and flexible JavaScript library for building user interfaces.
+- [Reactive Search] - Search UI components for React and Vue.
+
 
 And of course carggregator-web itself is open source with a [public repository][carggregator] on GitHub.
 
@@ -101,3 +103,4 @@ GNU General Public License v3.0
 [git-repo-url]: <https://github.com/eliseobao/carggregator-web.git>
 
 [React]: <https://github.com/facebook/react>
+[Reactive Search]: <https://github.com/appbaseio/reactivesearch>
