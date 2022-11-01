@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -11,7 +10,6 @@ import {
 } from '@appbaseio/reactivesearch';
 import {
     Row,
-    Button,
     Col,
     Card,
 } from 'antd';
@@ -38,60 +36,91 @@ function getNestedValue(obj, path) {
 }
 
 function renderItem(res, triggerClickAnalytics) {
-    let { image, url, description, title } = {"title":"brand","description":"model","image":"","url":"url","showRest":false};
-    image = getNestedValue(res,image);
-    title = getNestedValue(res,title);
-    url = getNestedValue(res,url);
-    description = getNestedValue(res,description)
+    let {brand, model, price_cash, price_financed, location, registration_date, fuel, odometer, hp, url, image, publisher} = {
+        "brand": "brand", "model": "model", "price_cash": "price_cash", "price_financed": "price_financed",
+        "location": "location", "registration_date": "registration_date", "fuel": "fuel", "odometer": "odometer",
+        "hp": "hp", "url": "url", "image": "image", "publisher": "publisher", "showRest": false
+    };
+    brand = getNestedValue(res, brand)
+    model = getNestedValue(res, model)
+    price_cash = getNestedValue(res, price_cash)
+    price_financed = getNestedValue(res, price_financed)
+    location = getNestedValue(res, location)
+    registration_date = getNestedValue(res, registration_date)
+    fuel = getNestedValue(res, fuel)
+    odometer = getNestedValue(res, odometer)
+    hp = getNestedValue(res, hp)
+    url = getNestedValue(res, url)
+    image = getNestedValue(res, image)
+    publisher = getNestedValue(res, publisher)
+
+    let title = brand + ' ' + model
+    let description = location + ' | ' + registration_date + ' | ' + odometer + ' Kms | ' + fuel + ' | ' + hp + ' CV'
+    let prices = 'Cash: ' + price_cash + '€'
+    if (price_financed  != undefined){
+        prices += ' | Financed: ' + price_financed + '€'
+    }
+
     return (
-        <Row onClick={triggerClickAnalytics} type="flex" gutter={16} key={res._id} style={{margin:'20px auto',borderBottom:'1px solid #ededed'}}>
-            <Col span={image ? 6 : 0}>
-                {image &&  <img src={image} alt={title} /> }
+        <Row onClick={triggerClickAnalytics} type="flex" gutter={16} key={res._id}
+             style={{margin: '20px auto', borderBottom: '1px solid #ededed'}}>
+            <Col span={10}>
+                {image && <img width={300} src={image} alt={brand}/>}
             </Col>
-            <Col span={image ? 18 : 24}>
-                <h3 style={{ fontWeight: '600' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(title || 'Choose a valid Title Field') }}/>
-                <p style={{ fontSize: '1em' }} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(description || 'Choose a valid Description Field')}}/>
+            <Col>
+                <a onClick={() => window.open(url, '_blank')}>
+                    <h3 style={{fontWeight: '600'}}
+                        dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(title)}}/>
+                </a>
+                <p style={{fontSize: '1em'}}
+                   dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(description)}}/>
+                <p style={{fontSize: '1em'}}
+                   dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(prices)}}/>
+                <p style={{fontSize: '1em'}}
+                   dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(publisher)}}/>
             </Col>
-            <div style={{padding:'20px'}}>
-                {url ? <Button shape="circle" icon="link" style={{ marginRight: '5px' }} onClick={() => window.open(url, '_blank')} />
-                    : null}
-            </div>
         </Row>
     );
-};
+}
 
 const App = () => (
     <ReactiveBase
-        app="carggregator-2022-10"
+        app="carggregator-index"
         credentials="null"
         url="http://localhost:9200"
         analytics={false}
         searchStateHeader
     >
-        <Row gutter={16} style={{ padding: 20 }}>
-            <Col span={12}>
+        <Row gutter="lg" style={{padding: 20}}>
+            <Col span={4}>
                 <Card>
                     <MultiList
-                        componentId="list-2"
+                        componentId="publisher"
+                        dataField="publisher.keyword"
+                        style={{
+                            marginBottom: 20
+                        }}
+                        title="Publisher"
+                    />
+                    <MultiList
+                        componentId="brand"
                         dataField="brand.keyword"
-                        size={100}
                         style={{
                             marginBottom: 20
                         }}
                         title="Brand"
                     />
                     <MultiList
-                        componentId="list-4"
+                        componentId="fuel"
                         dataField="fuel.keyword"
                         showSearch={false}
-                        size={100}
                         style={{
                             marginBottom: 20
                         }}
                         title="Fuel"
                     />
                     <MultiList
-                        componentId="list-5"
+                        componentId="location"
                         dataField="location.keyword"
                         size={100}
                         style={{
@@ -104,44 +133,25 @@ const App = () => (
             <Col span={12}>
                 <DataSearch
                     componentId="search"
-                    dataField={[
-                        'brand',
-                        'model',
-                        'version'
-                    ]}
-                    fieldWeights={[
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ]}
+                    dataField={['brand', 'model', 'version', 'title']}
+                    fieldWeights={[4, 3, 1, 2, 1, 1, 1]}
                     fuzziness={1}
-                    highlight={true}
-                    highlightField={[
-                        'brand',
-                        'model',
-                        'version'
-                    ]}
+                    highlightField={['brand', 'model', 'version', 'title']}
                     placeholder="What car are you looking for?"
                     style={{
                         marginBottom: 20
                     }}
+                    title=""
                 />
 
-                <SelectedFilters />
+                <SelectedFilters/>
                 <div id="result">
                     <ReactiveList
                         componentId="result"
                         dataField="_score"
                         pagination={true}
                         react={{
-                            and: [
-                                'search',
-                                'list-2',
-                                'list-4',
-                                'list-5'
-                            ]
+                            and: ['search', 'publisher', 'brand', 'fuel', 'location']
                         }}
                         renderItem={renderItem}
                         size={10}
@@ -151,12 +161,11 @@ const App = () => (
                     />
                 </div>
             </Col>
-
         </Row>
     </ReactiveBase>
 );
 
 ReactDOM.render(
-    <App />,
+    <App/>,
     document.getElementById('root')
 );
