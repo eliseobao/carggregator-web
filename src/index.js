@@ -171,6 +171,18 @@ const App = () => (
                         style={{
                             marginTop: 20
                         }}
+                        sortOptions={[
+                            {
+                                dataField: "price_cash",
+                                sortBy: "desc",
+                                label: "Sort by price (High to Low) \u00A0",
+                            },
+                            {
+                                dataField: "price_cash",
+                                sortBy: "asc",
+                                label: "Sort by price (Low to High) \u00A0",
+                            },
+                        ]}
                     />
                 </div>
             </Col>
