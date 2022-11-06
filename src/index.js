@@ -6,7 +6,8 @@ import {
     DataSearch,
     MultiList,
     SelectedFilters,
-    ReactiveList
+    ReactiveList,
+    DynamicRangeSlider
 } from '@appbaseio/reactivesearch';
 import {
     Row,
@@ -102,6 +103,18 @@ const App = () => (
                         }}
                         title="Publisher"
                     />
+                    <DynamicRangeSlider
+                        componentId="Price"
+                        dataField="price_cash"
+                        title="Price"
+                        rangeLabels={(min, max) => (
+                            {
+                              "start": min + '\u20AC',
+                              "end": max + '\u20AC'
+                            }
+                        )}
+                        loader="Loading ..."
+                    />
                     <MultiList
                         componentId="brand"
                         dataField="brand.keyword"
@@ -151,13 +164,25 @@ const App = () => (
                         dataField="_score"
                         pagination={true}
                         react={{
-                            and: ['search', 'publisher', 'brand', 'fuel', 'location']
+                            and: ['search', 'publisher', 'Price', 'brand', 'fuel', 'location']
                         }}
                         renderItem={renderItem}
                         size={10}
                         style={{
                             marginTop: 20
                         }}
+                        sortOptions={[
+                            {
+                                dataField: "price_cash",
+                                sortBy: "desc",
+                                label: "Sort by price (High to Low) \u00A0",
+                            },
+                            {
+                                dataField: "price_cash",
+                                sortBy: "asc",
+                                label: "Sort by price (Low to High) \u00A0",
+                            },
+                        ]}
                     />
                 </div>
             </Col>
