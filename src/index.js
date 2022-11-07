@@ -1,20 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {
-    ReactiveBase,
-    DataSearch,
-    MultiList,
-    SelectedFilters,
-    ReactiveList
-} from '@appbaseio/reactivesearch';
-import {
-    Row,
-    Col,
-    Card,
-} from 'antd';
+import {DataSearch, MultiList, ReactiveBase, ReactiveList, SelectedFilters} from '@appbaseio/reactivesearch';
+import {Card, Col, Row,} from 'antd';
 import 'antd/dist/antd.css';
 
+import {ReactComponent as Logo1} from './corporate/carggregator_logo_1.svg';
+import {ReactComponent as Logo3} from './corporate/carggregator_logo_3.svg';
 
 import createDOMPurify from 'dompurify';
 
@@ -22,13 +14,12 @@ const DOMPurify = createDOMPurify(window);
 
 function getNestedValue(obj, path) {
     const keys = path.split('.');
-    const currentObject = obj;
     const nestedValue = keys.reduce((value, key) => {
         if (value) {
             return value[key];
         }
         return '';
-    }, currentObject);
+    }, obj);
     if (typeof nestedValue === 'object') {
         return JSON.stringify(nestedValue);
     }
@@ -57,7 +48,7 @@ function renderItem(res, triggerClickAnalytics) {
     let title = brand + ' ' + model
     let description = location + ' | ' + registration_date + ' | ' + odometer + ' Kms | ' + fuel + ' | ' + hp + ' CV'
     let prices = 'Cash: ' + price_cash + '€'
-    if (price_financed  != undefined){
+    if (price_financed  !== undefined){
         prices += ' | Financed: ' + price_financed + '€'
     }
 
@@ -94,6 +85,9 @@ const App = () => (
         <Row gutter="lg" style={{padding: 20}}>
             <Col span={4}>
                 <Card>
+                    <div style={{marginBottom: 10}}>
+                        <Logo1 />
+                    </div>
                     <MultiList
                         componentId="publisher"
                         dataField="publisher.keyword"
@@ -131,6 +125,9 @@ const App = () => (
                 </Card>
             </Col>
             <Col span={12}>
+                <div style={{padding: 20}}>
+                    <Logo3 />
+                </div>
                 <DataSearch
                     componentId="search"
                     dataField={['brand', 'model', 'version', 'title']}
@@ -139,7 +136,8 @@ const App = () => (
                     highlightField={['brand', 'model', 'version', 'title']}
                     placeholder="What car are you looking for?"
                     style={{
-                        marginBottom: 20
+                        marginBottom: 20,
+                        marginLeft: 10,
                     }}
                     title=""
                 />
