@@ -7,7 +7,7 @@ import {
     MultiList,
     SelectedFilters,
     ReactiveList,
-    DynamicRangeSlider
+    RangeInput,
 } from '@appbaseio/reactivesearch';
 import {
     Row,
@@ -100,50 +100,66 @@ const App = () => (
                         <Logo1 />
                     </div>
                     <MultiList
-                        componentId="publisher"
+                        componentId="Publisher"
                         dataField="publisher.keyword"
                         style={{
                             marginBottom: 20
                         }}
                         title="Publisher"
+                        react={{
+                            and: ['Search', 'Price', 'Brand', 'Fuel', 'Location']
+                        }}
                     />
-                    <DynamicRangeSlider
+                    <RangeInput
                         componentId="Price"
                         dataField="price_cash"
                         title="Price"
-                        rangeLabels={(min, max) => (
-                            {
-                              "start": min + '\u20AC',
-                              "end": max + '\u20AC'
-                            }
-                        )}
-                        loader="Loading ..."
+                        rangeLabels={{
+                            "start": "Start",
+                            "end": "End"
+                        }}
+                        range={{
+                             "start": 0,
+                             "end": 100000
+                        }}
+                        react={{
+                            and: ['Search', 'Publisher', 'Brand', 'Fuel', 'Location']
+                        }}
                     />
                     <MultiList
-                        componentId="brand"
+                        componentId="Brand"
                         dataField="brand.keyword"
                         style={{
                             marginBottom: 20
                         }}
                         title="Brand"
+                        react={{
+                            and: ['Search', 'Publisher', 'Price', 'Fuel', 'Location']
+                        }}
                     />
                     <MultiList
-                        componentId="fuel"
+                        componentId="Fuel"
                         dataField="fuel.keyword"
                         showSearch={false}
                         style={{
                             marginBottom: 20
                         }}
                         title="Fuel"
+                        react={{
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Location']
+                        }}
                     />
                     <MultiList
-                        componentId="location"
+                        componentId="Location"
                         dataField="location.keyword"
                         size={100}
                         style={{
                             marginBottom: 20
                         }}
                         title="Location"
+                        react={{
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Fuel']
+                        }}
                     />
                 </Card>
             </Col>
@@ -152,7 +168,7 @@ const App = () => (
                     <Logo3 />
                 </div>
                 <DataSearch
-                    componentId="search"
+                    componentId="Search"
                     dataField={['brand', 'model', 'version', 'title']}
                     fieldWeights={[4, 3, 1, 2, 1, 1, 1]}
                     fuzziness={1}
@@ -172,7 +188,7 @@ const App = () => (
                         dataField="_score"
                         pagination={true}
                         react={{
-                            and: ['search', 'publisher', 'Price', 'brand', 'fuel', 'location']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Fuel', 'Location']
                         }}
                         renderItem={renderItem}
                         size={10}
