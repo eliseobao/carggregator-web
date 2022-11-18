@@ -7,7 +7,7 @@ import {
     MultiList,
     SelectedFilters,
     ReactiveList,
-    RangeInput,
+    RangeInput
 } from '@appbaseio/reactivesearch';
 import {
     Row,
@@ -114,13 +114,25 @@ const App = () => (
                     <div style={{marginBottom: 10}}>
                         <Logo1 />
                     </div>
-                    <RangeInput
-                        componentId="Price"
-                        dataField="price_cash"
+                    <MultiList
+                        componentId="Publisher"
+                        dataField="publisher.raw"
                         style={{
                             marginBottom: 20
                         }}
-                        title="Price"
+                        title="Publisher"
+                        react={{
+                            and: ['Search', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location', 'Transmission']
+                        }}
+                    />
+                    <RangeInput
+                        componentId="Price"
+                        dataField="price_cash"
+                        title="Price" 
+                        snap={false}
+                        style={{
+                            marginBottom: 20
+                        }}
                         rangeLabels={{
                             "start": "Start",
                             "end": "End"
@@ -130,12 +142,15 @@ const App = () => (
                              "end": 100000
                         }}
                         react={{
-                            and: ['Search', 'Publisher', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location']
+                            and: ['Search', 'Publisher', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location', 'Transmission']
                         }}
                     />
+
                     <RangeInput
                         componentId="Horse Power"
                         dataField="hp"
+                        snap={false}
+                        showHistogram={false}
                         style={{
                             marginBottom: 20
                         }}
@@ -149,12 +164,14 @@ const App = () => (
                             "end": 800
                         }}
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Location']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Location', 'Transmission']
                         }}
                     />
                     <RangeInput
                         componentId="Odometer"
                         dataField="odometer"
+                        snap={false}
+                        showHistogram={false}
                         style={{
                             marginBottom: 20
                         }}
@@ -168,55 +185,58 @@ const App = () => (
                             "end": 300000
                         }}
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Fuel', 'Horse Power', 'Location']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Fuel', 'Horse Power', 'Location', 'Transmission']
                         }}
                     />
-                    <MultiList
-                        componentId="Publisher"
-                        dataField="publisher.keyword"
-                        style={{
-                            marginBottom: 20
-                        }}
-                        title="Publisher"
-                        react={{
-                            and: ['Search', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location']
-                        }}
-                    />
+
                     <MultiList
                         componentId="Brand"
-                        dataField="brand.keyword"
+                        dataField="brand.raw"
                         style={{
                             marginBottom: 20
                         }}
                         title="Brand"
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Odometer', 'Fuel', 'Horse Power', 'Location']
+                            and: ['Search', 'Publisher', 'Price', 'Odometer', 'Fuel', 'Horse Power', 'Location', 'Transmission']
                         }}
                     />
 
                     <MultiList
                         componentId="Fuel"
-                        dataField="fuel.keyword"
+                        dataField="fuel.raw"
                         showSearch={false}
                         style={{
                             marginBottom: 20
                         }}
                         title="Fuel"
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Horse Power', 'Location']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Horse Power', 'Location', 'Transmission']
                         }}
                     />
 
                     <MultiList
-                        componentId="Location"
-                        dataField="location.keyword"
+                        componentId="Transmission"
+                        dataField="transmission.raw"
                         size={100}
                         style={{
                             marginBottom: 20
                         }}
                         title="Location"
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location']
+                        }}
+                    />
+
+                    <MultiList
+                        componentId="Location"
+                        dataField="location.raw"
+                        size={100}
+                        style={{
+                            marginBottom: 20
+                        }}
+                        title="Location"
+                        react={{
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Transmission']
                         }}
                     />
                 </Card>
@@ -243,7 +263,7 @@ const App = () => (
                         dataField="_score"
                         pagination={true}
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location', 'Transmission']
                         }}
                         renderItem={renderItem}
                         size={10}
@@ -260,6 +280,16 @@ const App = () => (
                                 dataField: "price_cash",
                                 sortBy: "asc",
                                 label: "Sort by price (Low to High) \u00A0",
+                            },
+                            {
+                                dataField: "registration_date",
+                                sortBy: "desc",
+                                label: "Sort by car registration date (High to Low) \u00A0",
+                            },
+                            {
+                                dataField: "registration_date",
+                                sortBy: "asc",
+                                label: "Sort by car registration date (Low to High) \u00A0",
                             },
                         ]}
                     />
