@@ -1,5 +1,3 @@
-# carggregator-web
-
 <p align="center">
     <a href="https://github.com/eliseobao/carggregator-web/" alt="carggregator-web">
         <img src="https://github.com/eliseobao/carggregator-web/blob/develop/images/corporate/carggregator_logo_1.svg" />
@@ -23,7 +21,7 @@
 </p>
 
 
-This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
 
 [![CC BY-SA 4.0][cc-by-sa-image]][cc-by-sa]
 
@@ -34,6 +32,14 @@ This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareA
 
 
 Frontend for carggregator, a second-hand car ads aggregator.
+
+## TOC
+
+- [Tech](#tech)
+- [Development](#development)
+  * [Git-Flow](#git-flow)
+  * [Docker](#docker)
+- [License](#license)
 
 
 ## Tech
@@ -92,10 +98,6 @@ make down
 ## License
 
 GNU General Public License v3.0
-
-
-**Free Software, Hell Yeah!**
-
 
 
 

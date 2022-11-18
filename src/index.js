@@ -17,7 +17,6 @@ import {
 import 'antd/dist/antd.css';
 
 import {ReactComponent as Logo1} from './corporate/carggregator_logo_1.svg';
-import {ReactComponent as Logo3} from './corporate/carggregator_logo_3.svg';
 
 import createDOMPurify from 'dompurify';
 
@@ -38,10 +37,10 @@ function getNestedValue(obj, path) {
 }
 
 function renderItem(res, triggerClickAnalytics) {
-    let {brand, model, price_cash, price_financed, location, registration_date, fuel, odometer, hp, url, image, publisher} = {
+    let {brand, model, price_cash, price_financed, location, registration_date, fuel, odometer, hp, transmission, url, image, publisher} = {
         "brand": "brand", "model": "model", "price_cash": "price_cash", "price_financed": "price_financed",
         "location": "location", "registration_date": "registration_date", "fuel": "fuel", "odometer": "odometer",
-        "hp": "hp", "url": "url", "image": "image", "publisher": "publisher", "showRest": false
+        "hp": "hp", "transmission": "transmission", "url": "url", "image": "image", "publisher": "publisher", "showRest": false
     };
     brand = getNestedValue(res, brand)
     model = getNestedValue(res, model)
@@ -52,12 +51,28 @@ function renderItem(res, triggerClickAnalytics) {
     fuel = getNestedValue(res, fuel)
     odometer = getNestedValue(res, odometer)
     hp = getNestedValue(res, hp)
+    transmission = getNestedValue(res, transmission)
     url = getNestedValue(res, url)
     image = getNestedValue(res, image)
     publisher = getNestedValue(res, publisher)
 
     let title = brand + ' ' + model
-    let description = location + ' | ' + registration_date + ' | ' + odometer + ' Kms | ' + fuel + ' | ' + hp + ' CV'
+    let description = ''
+
+    if (location !== undefined) {
+        description += location + ' | '
+    } if (registration_date !== undefined) {
+        description += registration_date + ' | '
+    } if (odometer !== undefined) {
+        description += odometer + ' Kms | '
+    } if (fuel !== undefined) {
+        description += fuel + ' | '
+    } if (hp !== undefined) {
+        description += hp + ' CV |'
+    } if (transmission !== undefined) {
+        description += transmission
+    }
+
     let prices = 'Cash: ' + price_cash + '€'
     if (price_financed  !== undefined){
         prices += ' | Financed: ' + price_financed + '€'
@@ -69,7 +84,7 @@ function renderItem(res, triggerClickAnalytics) {
             <Col span={10}>
                 {image && <img width={300} src={image} alt={brand}/>}
             </Col>
-            <Col>
+            <Col span={14}>
                 <a onClick={() => window.open(url, '_blank')}>
                     <h3 style={{fontWeight: '600'}}
                         dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(title)}}/>
@@ -101,13 +116,13 @@ const App = () => (
                     </div>
                     <MultiList
                         componentId="Publisher"
-                        dataField="publisher.keyword"
+                        dataField="publisher.raw"
                         style={{
                             marginBottom: 20
                         }}
                         title="Publisher"
                         react={{
-                            and: ['Search', 'Price', 'Brand', 'Fuel', 'Location']
+                            and: ['Search', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location', 'Transmission']
                         }}
                     />
                     <RangeInput
@@ -127,56 +142,112 @@ const App = () => (
                              "end": 100000
                         }}
                         react={{
-                            and: ['Search', 'Publisher', 'Brand', 'Fuel', 'Location']
+                            and: ['Search', 'Publisher', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location', 'Transmission']
                         }}
                     />
+
+                    <RangeInput
+                        componentId="Horse Power"
+                        dataField="hp"
+                        snap={false}
+                        showHistogram={false}
+                        style={{
+                            marginBottom: 20
+                        }}
+                        title="Horse Power"
+                        rangeLabels={{
+                            "start": "Start",
+                            "end": "End"
+                        }}
+                        range={{
+                            "start": 0,
+                            "end": 800
+                        }}
+                        react={{
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Location', 'Transmission']
+                        }}
+                    />
+                    <RangeInput
+                        componentId="Odometer"
+                        dataField="odometer"
+                        snap={false}
+                        showHistogram={false}
+                        style={{
+                            marginBottom: 20
+                        }}
+                        title="Odometer"
+                        rangeLabels={{
+                            "start": "Start",
+                            "end": "End"
+                        }}
+                        range={{
+                            "start": 0,
+                            "end": 300000
+                        }}
+                        react={{
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Fuel', 'Horse Power', 'Location', 'Transmission']
+                        }}
+                    />
+
                     <MultiList
                         componentId="Brand"
-                        dataField="brand.keyword"
+                        dataField="brand.raw"
                         style={{
                             marginBottom: 20
                         }}
                         title="Brand"
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Fuel', 'Location']
+                            and: ['Search', 'Publisher', 'Price', 'Odometer', 'Fuel', 'Horse Power', 'Location', 'Transmission']
                         }}
                     />
+
                     <MultiList
                         componentId="Fuel"
-                        dataField="fuel.keyword"
+                        dataField="fuel.raw"
                         showSearch={false}
                         style={{
                             marginBottom: 20
                         }}
                         title="Fuel"
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Location']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Horse Power', 'Location', 'Transmission']
                         }}
                     />
+
                     <MultiList
-                        componentId="Location"
-                        dataField="location.keyword"
+                        componentId="Transmission"
+                        dataField="transmission.raw"
                         size={100}
                         style={{
                             marginBottom: 20
                         }}
                         title="Location"
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Fuel']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location']
+                        }}
+                    />
+
+                    <MultiList
+                        componentId="Location"
+                        dataField="location.raw"
+                        size={100}
+                        style={{
+                            marginBottom: 20
+                        }}
+                        title="Location"
+                        react={{
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Transmission']
                         }}
                     />
                 </Card>
             </Col>
             <Col span={12}>
-                <div style={{padding: 20}}>
-                    <Logo3 />
-                </div>
                 <DataSearch
                     componentId="Search"
-                    dataField={['brand', 'model', 'version', 'title']}
+                    dataField={['brand', 'model', 'title']}
                     fieldWeights={[4, 3, 1, 2, 1, 1, 1]}
                     fuzziness={1}
-                    highlightField={['brand', 'model', 'version', 'title']}
+                    highlightField={['brand', 'model', 'title']}
                     placeholder="What car are you looking for?"
                     style={{
                         marginBottom: 20,
@@ -192,7 +263,7 @@ const App = () => (
                         dataField="_score"
                         pagination={true}
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Fuel', 'Location', 'PremiumPrice']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location', 'Transmission']
                         }}
                         renderItem={renderItem}
                         size={10}
@@ -209,6 +280,16 @@ const App = () => (
                                 dataField: "price_cash",
                                 sortBy: "asc",
                                 label: "Sort by price (Low to High) \u00A0",
+                            },
+                            {
+                                dataField: "registration_date",
+                                sortBy: "desc",
+                                label: "Sort by car registration date (High to Low) \u00A0",
+                            },
+                            {
+                                dataField: "registration_date",
+                                sortBy: "asc",
+                                label: "Sort by car registration date (Low to High) \u00A0",
                             },
                         ]}
                     />
