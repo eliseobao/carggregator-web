@@ -7,8 +7,7 @@ import {
     MultiList,
     SelectedFilters,
     ReactiveList,
-    RangeInput,
-    SingleRange
+    RangeInput
 } from '@appbaseio/reactivesearch';
 import {
     Row,
@@ -108,7 +107,7 @@ const App = () => (
                         }}
                         title="Publisher"
                         react={{
-                            and: ['Search', 'Price', 'Brand', 'Fuel', 'Location', 'PremiumPrice']
+                            and: ['Search', 'Price', 'Brand', 'Fuel', 'Location']
                         }}
                     />
                     <RangeInput
@@ -116,6 +115,9 @@ const App = () => (
                         dataField="price_cash"
                         title="Price" 
                         snap={false}
+                        style={{
+                            marginBottom: 20
+                        }}
                         rangeLabels={{
                             "start": "Start",
                             "end": "End"
@@ -125,18 +127,7 @@ const App = () => (
                              "end": 100000
                         }}
                         react={{
-                            and: ['Search', 'Publisher', 'Brand', 'Fuel', 'Location', "PremiumPrice"]
-                        }}
-                    />
-                    <p style={{marginTop: 20}}>For premium cars:</p>
-                    <SingleRange
-                        componentId="PremiumPrice"
-                        dataField="price_cash"
-                        data={[
-                            {"start": 100000, "end": 100000000000000, "label": "Premium (>100000€)"},
-                        ]}
-                        react={{
-                            and: ['Search', 'Publisher', 'Brand', 'Fuel', 'Location', 'Price']
+                            and: ['Search', 'Publisher', 'Brand', 'Fuel', 'Location']
                         }}
                     />
                     <MultiList
@@ -147,7 +138,7 @@ const App = () => (
                         }}
                         title="Brand"
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Fuel', 'Location', 'PremiumPrice']
+                            and: ['Search', 'Publisher', 'Price', 'Fuel', 'Location']
                         }}
                     />
                     <MultiList
@@ -159,7 +150,7 @@ const App = () => (
                         }}
                         title="Fuel"
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Location', 'PremiumPrice']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Location']
                         }}
                     />
                     <MultiList
@@ -171,7 +162,7 @@ const App = () => (
                         }}
                         title="Location"
                         react={{
-                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Fuel', 'PremiumPrice']
+                            and: ['Search', 'Publisher', 'Price', 'Brand', 'Fuel']
                         }}
                     />
                 </Card>
