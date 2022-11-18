@@ -221,7 +221,7 @@ const App = () => (
                         style={{
                             marginBottom: 20
                         }}
-                        title="Location"
+                        title="Transmission"
                         react={{
                             and: ['Search', 'Publisher', 'Price', 'Brand', 'Odometer', 'Fuel', 'Horse Power', 'Location']
                         }}
@@ -245,7 +245,7 @@ const App = () => (
                 <DataSearch
                     componentId="Search"
                     dataField={['brand', 'model', 'title']}
-                    fieldWeights={[4, 3, 1, 2, 1, 1, 1]}
+                    fieldWeights={[3, 1, 2, 1, 1]}
                     fuzziness={1}
                     highlightField={['brand', 'model', 'title']}
                     placeholder="What car are you looking for?"
